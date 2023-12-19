@@ -35,6 +35,11 @@ config ARM_GIC_KVM
     bool
     depends on ARM_GIC && KVM
 
+config ARM_GIC_XEN
+    bool
+    default y
+    depends on ARM_GIC && XEN
+
 config XICS
     bool
 
