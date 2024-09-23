@@ -63,7 +63,7 @@ static int vhost_blk_start(VirtIODevice *vdev)
 
     ret = vhost_dev_enable_notifiers(&s->dev, vdev);
     if (ret < 0) {
-        error_report("vhost-blk: unable to enable dev notifiers", errno);
+        error_report("vhost-blk: unable to enable dev notifiers %d", errno);
         return ret;
     }
 
@@ -215,7 +215,7 @@ static void vhost_blk_device_realize(DeviceState *dev, Error **errp)
     s->dev.vqs = g_new0(struct vhost_virtqueue, s->dev.nvqs);
     s->dev.vq_index = 0;
 
-    virtio_init(vdev, VIRTIO_ID_BLOCK, sizeof(struct virtio_blk_config));
+    virtio_init(vdev, "vhost-blk", VIRTIO_ID_BLOCK, sizeof(struct virtio_blk_config));
 
     for (i = 0; i < conf->num_queues; i++) {
         virtio_add_queue(vdev, conf->queue_size, vhost_blk_handle_output);
