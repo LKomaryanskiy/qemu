@@ -25,7 +25,7 @@
 #include "hw/intc/arm_gicv3_its_common.h"
 #include "hw/xen/xen-hvm-common.h"
 #include "hw/qdev-properties.h"
-#include "sysemu/runstate.h"
+#include "system/runstate.h"
 #include "migration/blocker.h"
 #include "qom/object.h"
 #include "hw/pci/msi.h"
