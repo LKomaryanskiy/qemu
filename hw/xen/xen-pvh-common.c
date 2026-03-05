@@ -187,6 +187,7 @@ static void xen_pvh_init(MachineState *ms)
     XenPVHMachineState *s = XEN_PVH_MACHINE(ms);
     XenPVHMachineClass *xpc = XEN_PVH_MACHINE_GET_CLASS(s);
     MemoryRegion *sysmem = get_system_memory();
+    DeviceState *dev;
     int rc = -1;
 
     if (!xen_enabled()) {
@@ -228,10 +229,14 @@ static void xen_pvh_init(MachineState *ms)
 
     /* Non-zero pci-ecam-size enables PCI.  */
     if (s->cfg.pci_ecam.size) {
-        if (!s->cfg.pci_intx_irq_base) {
-            error_report("PCI enabled but pci-intx-irq-base not set");
-            exit(EXIT_FAILURE);
-        }
+        dev = qdev_new("arm-its-xen");
+        sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
+        sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, GUEST_GICV3_ITS_BASE);
+        msi_nonbroken = true;
+        //if (!s->cfg.pci_intx_irq_base) {
+        //    error_report("PCI enabled but pci-intx-irq-base not set");
+        //    exit(EXIT_FAILURE);
+        //}
 
         xenpvh_gpex_init(s, xpc, sysmem);
     }
