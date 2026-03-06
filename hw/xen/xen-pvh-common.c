@@ -232,7 +232,7 @@ static void xen_pvh_init(MachineState *ms)
         dev = qdev_new("arm-its-xen");
         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
         sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, GUEST_GICV3_ITS_BASE);
-        msi_nonbroken = true;
+        //msi_nonbroken = true;
         //if (!s->cfg.pci_intx_irq_base) {
         //    error_report("PCI enabled but pci-intx-irq-base not set");
         //    exit(EXIT_FAILURE);
